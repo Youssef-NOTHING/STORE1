@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Product</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Michroma", sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+    }
+
+    h1 {
+      margin: 20px 0;
+    }
+
+    form {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 30px;
+    }
+
+    label {
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+
+    input, textarea, button {
+      margin-bottom: 15px;
+      padding: 10px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+    }
+
+    input, textarea {
+      background: #ffffff;
+      color: #000;
+    }
+
+    textarea {
+      resize: none;
+      height: 80px;
+    }
+
+    button {
+      background: #ff6f61;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background: #ff3b2f;
+    }
+
+    .success-message {
+      margin-top: 10px;
+      color: #00ff00;
+      font-size: 1rem;
+      display: none;
+    }
+
+    .products {
+      width: 90%;
+      max-width: 1200px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .product-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 15px;
+    }
+
+    .product-card:hover {
+      transform: scale(1.05);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .product-card h3 {
+      font-size: 1.5rem;
+      margin: 10px 0;
+      color: #ffffff;
+    }
+
+    .product-card p {
+      font-size: 1rem;
+      margin: 5px 0;
+      color: #ffffff;
+    }
+
+    .product-card button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      color: #fff;
+      background-color: #ff6f61;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .product-card button:hover {
+      background-color: #ff3b2f;
+    }
+  </style>
+</head>
+<body>
+  <h1>Add New Product</h1>
+  <form id="addProductForm">
+    <label for="productName">Product Name</label>
+    <input type="text" id="productName" placeholder="Enter product name" required>
+
+    <label for="productPrice">Product Price</label>
+    <input type="number" id="productPrice" placeholder="Enter product price" required>
+
+    <label for="productImage">Product Image</label>
+    <input type="file" id="productImage" accept="image/*" required>
+
+    <label for="productDescription">Product Description</label>
+    <textarea id="productDescription" placeholder="Enter product description" required></textarea>
+
+    <button type="submit">Add Product</button>
+    <p class="success-message" id="successMessage">Product added successfully!</p>
+  </form>
+
+  <h2>All Products</h2>
+  <div class="products" id="products"></div>
+
+  <script>
+    const form = document.getElementById('addProductForm');
+    const successMessage = document.getElementById('successMessage');
+    const productsContainer = document.getElementById('products');
+
+    // Retrieve products from localStorage
+    let products = JSON.parse(localStorage.getItem('products')) || [];
+
+    // Function to render products
+    function renderProducts() {
+      productsContainer.innerHTML = ''; // Clear the container
+      products.forEach((product, index) => {
+        const productCard = document.createElement('div');
+        productCard.classList.add('product-card');
+        productCard.innerHTML = `
+          <img src="${product.image}" alt="${product.name}">
+          <h3>${product.name}</h3>
+          <p>$${product.price}</p>
+          <p>${product.description}</p>
+          <button onclick="deleteProduct(${index})">Delete</button>
+        `;
+        productsContainer.appendChild(productCard);
+      });
+    }
+
+    // Function to delete a product
+    function deleteProduct(index) {
+      products.splice(index, 1); // Remove the product from the array
+      localStorage.setItem('products', JSON.stringify(products)); // Update localStorage
+      renderProducts(); // Re-render the products
+    }
+
+    // Add product form submission
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      // Get product details from the form
+      const productName = document.getElementById('productName').value;
+      const productPrice = document.getElementById('productPrice').value;
+      const productImageInput = document.getElementById('productImage');
+      const productDescription = document.getElementById('productDescription').value;
+
+      // Check if an image file is selected
+      if (productImageInput.files.length === 0) {
+        alert('Please select an image file.');
+        return;
+      }
+
+      // Create a temporary URL for the uploaded image
+      const productImage = URL.createObjectURL(productImageInput.files[0]);
+
+      // Save product details to localStorage
+      products.push({ 
+        name: productName, 
+        price: productPrice, 
+        image: productImage, 
+        description: productDescription 
+      });
+      localStorage.setItem('products', JSON.stringify(products));
+
+      // Show success message
+      successMessage.style.display = 'block';
+
+      // Clear the form
+      form.reset();
+
+      // Hide the success message after 2 seconds
+      setTimeout(() => {
+        successMessage.style.display = 'none';
+      }, 2000);
+
+      // Re-render products
+      renderProducts();
+    });
+
+    // Initial render of products
+    renderProducts();
+  </script>
+</body>
+</html>

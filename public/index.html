@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Michroma&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Store Home</title>
+  <style>
+    body {
+      font-family: "Michroma", sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      color: white;
+    }
+
+    .bg-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1; /* Send the video to the background */
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 10;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.2rem;
+      margin: 0 15px;
+      display: flex;
+      align-items: center;
+      transition: color 0.3s;
+      font-family: "Michroma", sans-serif;
+    }
+
+    .navbar a:hover {
+      color: #ff6f61;
+    }
+
+    .navbar .logo-text {
+      font-family: "Bangers", cursive;
+      font-size: 2.3rem;
+      font-weight: bold;
+      color: #ff6f61;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .logo {
+      width: 600px;
+      height: 600px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      border-radius: 50%; /* Optional: Make the container circular */
+      overflow: hidden; /* Ensure the image stays inside the container */
+      animation: move3D 5s infinite ease-in-out; /* 3D animation */
+    }
+
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain; /* Ensure the image fits within the container */
+    }
+
+    @keyframes move3D {
+      0% {
+        transform: rotateX(0deg) rotateY(0deg);
+      }
+      25% {
+        transform: rotateX(20deg) rotateY(20deg);
+      }
+      50% {
+        transform: rotateX(40deg) rotateY(40deg);
+      }
+      75% {
+        transform: rotateX(20deg) rotateY(20deg);
+      }
+      100% {
+        transform: rotateX(0deg) rotateY(0deg);
+      }
+    }
+
+    .shop-button {
+      margin-top: -50px;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      color: #fff;
+      background-color: #ff6f61;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .shop-button:hover {
+      background-color: #ff3b2f;
+      transform: scale(1.05);
+    }
+
+    .shop-button:active {
+      transform: scale(0.95);
+    }
+  </style>
+  <!-- Add FontAwesome for icons -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <!-- Background Video -->
+  <video class="bg-video" autoplay loop muted>
+    <source src="..\src\components\Essentiel.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <a href="#profile">
+      <i class="fas fa-user icon"></i> Profile
+    </a>
+    <div class="logo-text">Z I O N</div>
+    <a href="#login">Login</a>
+  </div>
+
+  <!-- 3D Moving Logo -->
+  <div class="logo">
+    <img src="..\src\components\3.png" alt="ZION Logo">
+  </div>
+
+  <button class="shop-button" id="shopButton">Shop Now</button>
+
+  <script>
+    // JavaScript to handle button click
+    document.getElementById('shopButton').addEventListener('click', function() {
+      window.location.href = 'store.html'; // Redirect to store page
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZION Store</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=shopping_cart" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Michroma&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Michroma", sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: white;
+      overflow-x: hidden;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 10;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .cart-icon-navbar {
+      font-size: 1.8rem;
+      color: #ff6f61;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .cart-icon-navbar:hover {
+      color: #ff3b2f;
+    }
+
+    .cart-icon-body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px auto;
+      font-size: 2rem;
+      color: #ff6f61;
+      cursor: pointer;
+      transition: color 0.3s, transform 0.3s;
+    }
+
+    .cart-icon-body:hover {
+      color: #ff3b2f;
+      transform: scale(1.1);
+    }
+
+    .cart-icon-body i {
+      margin-right: 10px;
+    }
+
+    .cart-text {
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    .limited-title {
+      text-align: center;
+      font-size: 2rem;
+      color: #ff6f61;
+      margin-top: 80px; /* Adjust for navbar */
+      margin-bottom: 5px; /* Reduced from 10px to 5px */
+      font-weight: bold;
+      text-transform: uppercase;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      align-items: center;
+      justify-items: center;
+      margin-top: 0; /* Removed extra margin */
+    }
+
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 50px auto; /* Add spacing around the logo */
+      animation: fadeIn 2s ease-in-out, bounce 3s infinite; /* Add animations */
+    }
+
+    .logo-container img {
+      width: 500px; /* Adjust the size of the logo */
+      height: auto;
+      object-fit: contain;
+      animation: rotate 5s linear infinite; /* Add rotation animation */
+    }
+
+    /* Fade-in animation */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Bounce animation */
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-20px);
+      }
+    }
+
+    /* Rotate animation */
+    @keyframes rotate {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .card {
+      width: 300px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+      background-color: #fff;
+      color: #000;
+      margin: 20px;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .card-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .card:hover .card-image {
+      transform: scale(1.1);
+    }
+
+    .card-content {
+      padding: 15px;
+      text-align: center;
+    }
+
+    .card-content h3 {
+      font-size: 1.5rem;
+      margin: 10px 0;
+    }
+
+    .card-content p {
+      font-size: 1rem;
+      color: #555;
+    }
+
+    .shop-button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      color: #fff;
+      background-color: #ff6f61;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .shop-button:hover {
+      background-color: #ff3b2f;
+    }
+
+    /* Floating Cart Icon */
+    .floating-cart {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background-color: #ff6f61;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: transform 0.3s, background-color 0.3s;
+      z-index: 1000;
+    }
+
+    .floating-cart:hover {
+      background-color: #ff3b2f;
+      transform: scale(1.1);
+    }
+
+    .floating-cart img {
+      width: 30px; /* Adjust the size of the PNG image */
+      height: 30px;
+      object-fit: contain;
+    }
+
+    /* Cart Modal */
+    .cart-modal {
+      display: none; /* Hidden by default */
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 400px;
+      background-color: white;
+      color: black;
+      border-radius: 15px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      z-index: 1001;
+      padding: 20px;
+      animation: slideIn 0.5s ease-in-out;
+    }
+
+    .cart-modal-content {
+      text-align: center;
+    }
+
+    .cart-modal h3 {
+      margin-top: 0;
+      font-size: 1.8rem;
+      color: #333;
+    }
+
+    .cart-modal ul {
+      list-style: none;
+      padding: 0;
+      margin: 10px 0;
+      max-height: 150px;
+      overflow-y: auto;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 10px;
+    }
+
+    .cart-modal ul li {
+      margin: 5px 0;
+      font-size: 1rem;
+      color: #555;
+    }
+
+    .cart-total {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin: 15px 0;
+      color: #333;
+    }
+
+    .payment-button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .payment-button:hover {
+      background-color: #218838;
+    }
+
+    .close-button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #ff6f61;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .close-button:hover {
+      background-color: #ff3b2f;
+    }
+
+    .remove-button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      background-color: #ff6f61;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .remove-button:hover {
+      background-color: #ff3b2f;
+    }
+
+    /* Slide-in animation for the modal */
+    @keyframes slideIn {
+      from {
+        transform: translate(-50%, -60%);
+        opacity: 0;
+      }
+      to {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="logo-text">ZION STORE</div>
+  </div>
+
+  <!-- Limited Product Message -->
+  <h2 class="limited-title">Limited Products</h2>
+
+  <!-- Products Section -->
+  <div class="products" id="products">
+    <!-- The logo will be dynamically inserted here -->
+  </div>
+
+  <!-- Floating Cart Icon -->
+  <div class="floating-cart" onclick="viewCart()">
+    <img src="../src/components/cart-icon.png" alt="Cart Icon">
+  </div>
+
+  <!-- Cart Modal -->
+  <div id="cartModal" class="cart-modal">
+    <div class="cart-modal-content">
+      <h3>Cart Items</h3>
+      <ul id="cartItems"></ul>
+      <p class="cart-total">Total: $<span id="cartTotal">0.00</span></p>
+      <button class="payment-button" onclick="proceedToPayment()">Proceed to Payment</button>
+      <button class="close-button" onclick="closeCart()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    const productsContainer = document.getElementById("products");
+    const cartModal = document.getElementById("cartModal");
+    const cartItemsContainer = document.getElementById("cartItems");
+
+    // Retrieve products from localStorage
+    const products = JSON.parse(localStorage.getItem("products")) || [];
+    let cart = JSON.parse(localStorage.getItem("cart")) || []; // Retrieve cart from localStorage
+
+    // Function to render products
+    function renderProducts() {
+      products.forEach((product, index) => {
+        const card = document.createElement("div");
+        card.classList.add("card");
+        card.innerHTML = `
+          <img src="${product.image}" alt="${product.name}" class="card-image">
+          <div class="card-content">
+            <h3>${product.name}</h3>
+            <p>${product.description}</p>
+            <p><strong>$${product.price}</strong></p>
+            <button class="shop-button" onclick="addToCart(${index})">Buy Now</button>
+          </div>
+        `;
+
+        // Insert the logo after the first product
+        if (index === 0) {
+          const logoContainer = document.createElement("div");
+          logoContainer.classList.add("logo-container");
+          logoContainer.innerHTML = `
+            <img src="../src/components/3.png" alt="ZION Logo">
+          `;
+          productsContainer.appendChild(card);
+          productsContainer.appendChild(logoContainer);
+        } else {
+          productsContainer.appendChild(card);
+        }
+      });
+    }
+
+    // Function to add a product to the cart
+    function addToCart(index) {
+      const product = products[index];
+      cart.push(product);
+      localStorage.setItem("cart", JSON.stringify(cart)); // Save cart to localStorage
+      alert(`${product.name} has been added to the cart!`);
+      updateCartTotal(); // Update the total price
+      console.log("Cart:", cart); // For debugging purposes
+    }
+
+    // Function to update the total price in the cart
+    function updateCartTotal() {
+      const total = cart.reduce((sum, item) => sum + parseFloat(item.price), 0);
+      document.getElementById("cartTotal").textContent = total.toFixed(2);
+    }
+
+    // Function to view the cart
+    function viewCart() {
+      if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+      }
+
+      // Populate the cart modal with cart items
+      cartItemsContainer.innerHTML = ""; // Clear previous items
+      cart.forEach((item, index) => {
+        const listItem = document.createElement("li");
+        listItem.innerHTML = `
+          ${item.name} - $${item.price}
+          <button class="remove-button" onclick="removeFromCart(${index})">Remove</button>
+        `;
+        cartItemsContainer.appendChild(listItem);
+      });
+
+      // Show the cart modal
+      cartModal.style.display = "block";
+    }
+
+    // Function to remove a product from the cart
+    function removeFromCart(index) {
+      cart.splice(index, 1); // Remove the item from the cart array
+      localStorage.setItem("cart", JSON.stringify(cart)); // Update localStorage
+      updateCartTotal(); // Update the total price
+      viewCart(); // Re-render the cart modal
+    }
+
+    // Function to close the cart modal
+    function closeCart() {
+      cartModal.style.display = "none";
+    }
+
+    // Function to handle payment
+    function proceedToPayment() {
+      if (cart.length === 0) {
+        alert("Your cart is empty! Add items before proceeding to payment.");
+        return;
+      }
+      alert("Proceeding to payment...");
+      // Add payment logic here (e.g., redirect to a payment gateway)
+    }
+
+    // Initial render of products
+    renderProducts();
+    updateCartTotal(); // Update the total price on page load
+  </script>
+</body>
+</html>
